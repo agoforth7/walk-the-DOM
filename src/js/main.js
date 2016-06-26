@@ -70,7 +70,7 @@ function findElementsByClassName (start, arguments) {
 	var result = [];
 	walkTheDOM(start, function (x) {
 		for (var i = 0; i < arguments.length; i++) {
-			if (x === x) {
+			if (x.classList === x) {
 				result.push(x);
 			}
 		}
