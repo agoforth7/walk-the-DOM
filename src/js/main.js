@@ -66,26 +66,54 @@ console.assert(document.getElementsByTagName('div')[1] === findElementsByTagName
 // The function should return an array of elements.
 // The elements in the resulting array should have all of the class names that were specified, not just one.
 
-function findElementsByClassName (start, arguments) {
-	var result = [];
-	walkTheDOM(start, function (x) {
-		for (var i = 0; i < arguments.length; i++) {
-			if (x.classList === x) {
-				result.push(x);
-			}
-		}
-	})
-	return result;
-};
+// This is the stuff I did wrong that I didn't delete:
 
-var please = findElementsByClassName(document.body, 'thisOne', 'thisOtherOne');
-console.log(please);
+// function findElementsByClassName (start) {
+// 	var args = arguments;
+// 	var result = [];
+// 	walkTheDOM(start, function (x) {
+// 		for (var i = 1; i < args.length; i++) {
+// 			if (!x.classList.contains(args[i])) {
+// 				return;
+// 			} else {
+// 				result.push(x);
+// 			}
+// 		}
+// 	});
+// 	return result;
+// }
 
-console.log(document.body.classList.length);
+// function findElementsByClassName (start) {
+//     var args = arguments
+//     var result = [];
+//     walkTheDOM(start, function (x) {
+//         for (var i = 1; i < args.length; i++) {
+//             if (x.classList.contains(args[i])) {
+//                 result.push(x);
+//             }
+//         }
+//     })
+//     return result;
+// };
 
-// var elementClasses = document.body.classList;
-// console.log(elementClasses);
+function findElementsByClassName (start) {
+    var args = arguments;
+    var result = [];
+    walkTheDOM(start, function (x) {
+        for (var i = 1; i < args.length; i++) {
+        	// without the !, the function will stop after the first time it finds a match.
+            if (!x.classList.contains(args[i])) {
+                return;
+            }
+        }
+        result.push(x);
+    });
+    return result;
+}
 
-// console.assert(document.getElementsByClassName('thisOne')[0] === findElementsByClassName(document.body, 'thisOne', 'thisOtherOne')[0]);
+console.log(findElementsByClassName(document.body, 'thisOne', 'thisOtherOne'));
 
-// console.log(document.getElementsByClassName('thisOne'));
+var a = findElementsByClassName(document.body, 'thisOne', 'thisOtherOne');
+
+console.assert(a.length === 1);
+console.assert(a[0].classList.contains('thisOne') && a[0].classList.contains('thisOtherOne'));
